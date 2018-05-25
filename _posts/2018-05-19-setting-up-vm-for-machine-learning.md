@@ -7,16 +7,16 @@ tags: [SampleRNN, Neural Networks, Music, Machine Learning, Virtual Machine, CUD
 ---
 ## Introduction
 
-This post will show a list of commands that will set up an environment for using [SampleRNN][0]. We will be using the [PyTorch][1] versions, since its more robust and dynamic.
+This post will show a list of commands that will set up an environment for using [SampleRNN][0]. We will be using the [PyTorch][1] versions, since its easier to debug and setup.
 
 The following architecture as Google Cloud VM instance:
 
-| MACHINE: | 2 vCPUs, 7,5 GB |
-| CPU-type: | Intel Sandy Bridge |
-| GPU: | 1 NVIDIA Tesla K80 |
-| DISK: | 50GB persistent |
-| OS: | Ubuntu 16.04.4 LTS |
-| ARCHITECTURE: | x86_64|
+| **MACHINE**: | 2 vCPUs, 7,5 GB |
+| **CPU**: | Intel Sandy Bridge |
+| **GPU**: | 1 NVIDIA Tesla K80 |
+| **DISK**: | 50GB persistent |
+| **OS**: | Ubuntu 16.04.4 LTS |
+| **ARCH**: | x86_64|
 
 The following packages/dependencies will be used:
 - CUDA 9.0 (recommended)
@@ -176,6 +176,10 @@ With these settings, every 1350 iterations (60-100 minutes) an epoch will end an
 To send these to your own local computer, use the following commands:
 
 `rsync -chavzP --stats -e 'ssh -i ~/.ssh/my-ssh-key' <username>@<remote_ip>:/home/<name>/CODE/samplernn-pytorch/results/exp:TEST-frame_sizes:16,4-n_rnn:2-dataset:piano/samples '<local folder>'`
+
+### Questions ###
+
+If you have any questions, even if you think they might be obvious to some, just ask them under this page or contact me privately!
 
 [0]: https://github.com/soroushmehr/sampleRNN_ICLR2017 "SampleRNN"
 [1]: https://github.com/deepsound-project/samplernn-pytorch "SampleRNN PyTorch"

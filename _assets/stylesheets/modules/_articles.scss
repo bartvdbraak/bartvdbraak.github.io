@@ -158,12 +158,13 @@
   img,
   blockquote {
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
   h2,
   h3,
   h4 {
     display: block;
+    margin-top: 15px;
     margin-bottom: 10px;
     font-family: $sans-serif;
     color: $article-post-titles-color;

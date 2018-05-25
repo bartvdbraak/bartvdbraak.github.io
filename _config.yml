@@ -17,7 +17,7 @@ rss_enabled: true # Change to false if not
 scrollappear_enabled: true # Change to false to disable
 social:
   dribbble: # Add your Dribbble handle
-  facebook: bartvdbraak # Add your Facebook handle
+  facebook: bartvanderbraak # Add your Facebook handle
   flickr: # Add your Flickr handle
   github: bartvdbraak # Add your GitHub handle
   linkedin: bartvdbraak # Add your LinkedIn handle
