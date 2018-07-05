@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Bart | Setting up a VM for Machine Learning</title>
+  <meta name="description" content="A step-by-step guide to setup a Virtual Machine for running Machine Learning SampleRNN with CUDA support.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Setting up a VM for Machine Learning">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/posts/setting-up-vm-for-machine-learning">
+  <meta property="og:description" content="A step-by-step guide to setup a Virtual Machine for running Machine Learning SampleRNN with CUDA support.">
+  <meta property="og:site_name" content="Bart">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="/posts/setting-up-vm-for-machine-learning">
+  <meta name="twitter:title" content="Setting up a VM for Machine Learning">
+  <meta name="twitter:description" content="A step-by-step guide to setup a Virtual Machine for running Machine Learning SampleRNN with CUDA support.">
+
+  
+    
+      <meta property="og:image" content="/assets/documentation/thumbnail-setup-vm-7848c7b0d0cdbb7819251693c8e3ddcb6e7000b5020dc7b08dd86f0ac895aca8.png">
+      <meta name="twitter:image" content="/assets/documentation/thumbnail-setup-vm-7848c7b0d0cdbb7819251693c8e3ddcb6e7000b5020dc7b08dd86f0ac895aca8.png">
+    
+  
+
+  <link href="/feed.xml" type="application/rss+xml" rel="alternate" title="Bart Last 10 blog posts" />
+
+  
+
+  
+    <link rel="icon" type="image/x-icon" href="/assets/favicon-light-4fba166a638ec7f2239aa79b4df6d78789af4d0b6cb0a30df04d9e138a6d1c7b.ico">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-8b57f2d82fd64f5de3ee8aa72b9843ae377c2a0b64d73bc8d9f8166a17e9c2e3.png">
+    <link rel="stylesheet" type="text/css" href="/assets/light-5d1bc702b9d673e6b528b5949cb3d7b28d8d21d276b500fa7ba24de850e7137f.css">
+  
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="Bart">Bart</a>
+  <ul class="header-links">
+    
+    
+      <li>
+        <a href="https://twitter.com/bartvdbraak" rel="noreferrer noopener" target="_blank" title="Twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-twitter">
+  <use href="/assets/twitter-8842c33965263ad1b03a978406826677a668f94125d5837e70ab83f24b3213a7.svg#icon-twitter" xlink:href="/assets/twitter-8842c33965263ad1b03a978406826677a668f94125d5837e70ab83f24b3213a7.svg#icon-twitter"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="https://www.facebook.com/bartvanderbraak" rel="noreferrer noopener" target="_blank" title="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-facebook">
+  <use href="/assets/facebook-72c99b26d37bee65607720abb23d26b44ef30cca1187f98b0d9305be1230b1bf.svg#icon-facebook" xlink:href="/assets/facebook-72c99b26d37bee65607720abb23d26b44ef30cca1187f98b0d9305be1230b1bf.svg#icon-facebook"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://github.com/bartvdbraak" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://stackoverflow.com/users/4492207" rel="noreferrer noopener" target="_blank" title="Stack Overflow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-stackoverflow">
+  <use href="/assets/stackoverflow-12ba59133ed134d26156d30f095e0222b6039395cf26f2fab0cb6ce3ef2db00d.svg#icon-stackoverflow" xlink:href="/assets/stackoverflow-12ba59133ed134d26156d30f095e0222b6039395cf26f2fab0cb6ce3ef2db00d.svg#icon-stackoverflow"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/bartvdbraak" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/bartvdbraak" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://play.spotify.com/user/118412596" rel="noreferrer noopener" target="_blank" title="Spotify">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-spotify">
+  <use href="/assets/spotify-e5b8d68b83f4ca44a4a6dfbe2240ea050cb4d2fd38c1628be02cf2f61abe19f6.svg#icon-spotify" xlink:href="/assets/spotify-e5b8d68b83f4ca44a4a6dfbe2240ea050cb4d2fd38c1628be02cf2f61abe19f6.svg#icon-spotify"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:bartvdbraak@gmail.com" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="/feed.xml" rel="noreferrer noopener" target="_blank" title="RSS">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-rss">
+  <use href="/assets/rss-541ec5cea9cefd10d2fcfec01888f3f231a8829940249835fa7b7b3a12ae0d0d.svg#icon-rss" xlink:href="/assets/rss-541ec5cea9cefd10d2fcfec01888f3f231a8829940249835fa7b7b3a12ae0d0d.svg#icon-rss"></use>
+</svg>
+
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+        <article class="article scrollappear">
+        <header class="article-header">
+          <table><tbody><tr>
+          <td style="width: 70%;">
+            
+              <h1>Setting up a VM for Machine Learning</h1>
+              <p>A step-by-step guide to setup a Virtual Machine for running Machine Learning SampleRNN with CUDA support.</p>
+
+          </td>
+          <td>
+            <span> 
+              
+                <img src="/assets/documentation/thumbnail-setup-vm-7848c7b0d0cdbb7819251693c8e3ddcb6e7000b5020dc7b08dd86f0ac895aca8.png">
+              
+            </span>
+          </td>
+        </tr></tbody></table>
+
+
+            <div class="article-list-footer">
+              <span class="article-list-date">
+                May 19, 2018
+              </span>
+              <span class="article-list-divider">-</span>
+              <span class="article-list-minutes">
+                
+                
+                  4 minute read
+                
+              </span>
+              <span class="article-list-divider">-</span>
+              <div class="article-list-tags">
+                
+                  <a href="/tag/SampleRNN">SampleRNN</a>
+                
+                  <a href="/tag/Neural Networks">Neural Networks</a>
+                
+                  <a href="/tag/Music">Music</a>
+                
+                  <a href="/tag/Machine Learning">Machine Learning</a>
+                
+                  <a href="/tag/Virtual Machine">Virtual Machine</a>
+                
+                  <a href="/tag/CUDA">CUDA</a>
+                
+              </div>
+            </div>
+          </header>
+
+          <div class="article-content">
+            <h2 id="introduction">Introduction</h2>
+
+<p>This post will show a list of commands that will set up an environment for using <a href="https://github.com/soroushmehr/sampleRNN_ICLR2017" title="SampleRNN">SampleRNN</a>. We will be using the <a href="https://github.com/deepsound-project/samplernn-pytorch" title="SampleRNN PyTorch">PyTorch</a> versions, since its easier to debug and setup.</p>
+
+<p>The following architecture as Google Cloud VM instance:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>MACHINE</strong>:</td>
+      <td>2 vCPUs, 7,5 GB</td>
+    </tr>
+    <tr>
+      <td><strong>CPU</strong>:</td>
+      <td>Intel Sandy Bridge</td>
+    </tr>
+    <tr>
+      <td><strong>GPU</strong>:</td>
+      <td>1 NVIDIA Tesla K80</td>
+    </tr>
+    <tr>
+      <td><strong>DISK</strong>:</td>
+      <td>50GB persistent</td>
+    </tr>
+    <tr>
+      <td><strong>OS</strong>:</td>
+      <td>Ubuntu 16.04.4 LTS</td>
+    </tr>
+    <tr>
+      <td><strong>ARCH</strong>:</td>
+      <td>x86_64</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The following packages/dependencies will be used:</p>
+<ul>
+  <li>CUDA 9.0 (recommended)</li>
+  <li>Anaconda 3.5.1</li>
+  <li>Python 3.5</li>
+  <li>PyTorch 0.3.1</li>
+  <li>Librosa, Matplotlib, Natsort, Torch</li>
+  <li>Tmux</li>
+  <li>Comet_ml (optional)</li>
+</ul>
+
+<h2 id="connection">Connection</h2>
+
+<p>Generate a key with a username/password combination for secure connection through SSH.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t rsa -f ~/.ssh/my-ssh-key -C &lt;username&gt;
+</code></pre></div></div>
+<p>You will be prompted for a password that will be asked every SSH session: remember it.</p>
+
+<p>Connect to your remote server (external IP address) with said credentials.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh -i ~/.ssh/my-ssh-key &lt;username&gt;@&lt;remote_ip&gt;
+</code></pre></div></div>
+
+<p>When your remote server’s IP has changed:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -R &lt;remote_ip&gt;
+</code></pre></div></div>
+
+<h2 id="general">General</h2>
+
+<p>Getting some updates and essential tools first for fresh installs of Ubuntu.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt update
+sudo apt upgrade
+sudo apt-get install build-essential git
+</code></pre></div></div>
+
+<h2 id="cuda">CUDA</h2>
+
+<p>For this sort of Machine Learning CUDA is recommended as it will speed up your training. If you do not have a Nvidia GPU or any GPU, I would suggest looking into the <a href="https://cloud.google.com/compute/?hl=nl" title="Google Cloud's Compute Engine">free Google Cloud VM</a>’s (with free 300$ per Google Account) and <a href="https://stackoverflow.com/questions/45227064/how-to-request-gpu-quota-increase-in-google-cloud#answer-49737435" title="How to increase GPU Quota">request a quotum for the Nvida K80 GPU</a>.</p>
+
+<p>Inside the remote machine:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd
+mkdir CUDA
+cd CUDA/
+wget "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.0.176-1_amd64.deb"
+wget "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/libcudnn7_7.0.5.15-1+cuda9.0_amd64.deb"
+wget "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/libcudnn7-dev_7.0.5.15-1+cuda9.0_amd64.deb"
+wget "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/libnccl2_2.1.4-1+cuda9.0_amd64.deb"
+wget "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/libnccl-dev_2.1.4-1+cuda9.0_amd64.deb"
+sudo dpkg -i cuda-repo-ubuntu1604_9.0.176-1_amd64.deb
+sudo dpkg -i libcudnn7_7.0.5.15-1+cuda9.0_amd64.deb
+sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda9.0_amd64.deb
+sudo dpkg -i libnccl2_2.1.4-1+cuda9.0_amd64.deb
+sudo dpkg -i libnccl-dev_2.1.4-1+cuda9.0_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda=9.0.176-1
+sudo apt-get install libcudnn7-dev
+sudo apt-get install libnccl-dev
+</code></pre></div></div>
+<p>If you are prompted for the Terms of Service, just press <code class="highlighter-rouge">[space-bar]</code> till you’re at the bottom of the page and type <code class="highlighter-rouge">accept</code> and <code class="highlighter-rouge">[enter]</code>. When any options require a yes/no, type <code class="highlighter-rouge">yes</code> and <code class="highlighter-rouge">[enter]</code>. When locations need to be specified just type <code class="highlighter-rouge">[enter]</code></p>
+
+<h2 id="anaconda">Anaconda</h2>
+
+<p>Now we are going to set up our virtual environment manager: Anaconda. This will be easier when you are also keeping track of other versions of python for different projects. It also shows us if we are having trouble with dependency compatibility.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd
+mkdir CONDA
+cd CONDA/
+wget "https://repo.anaconda.com/archive/Anaconda3-5.1.0-Linux-x86_64.sh"
+sudo bash ./Anaconda3-5.1.0-Linux-x86_64.sh
+</code></pre></div></div>
+<p>If you are prompted for the Terms of Service, just press <code class="highlighter-rouge">[space-bar]</code> till you’re at the bottom of the page and type <code class="highlighter-rouge">accept</code> and <code class="highlighter-rouge">[enter]</code>. When any options require a yes/no, type <code class="highlighter-rouge">yes</code> and <code class="highlighter-rouge">[enter]</code>. When locations need to be specified just type <code class="highlighter-rouge">[enter]</code></p>
+
+<h2 id="git--dataset-for-samplernn">GIT / DATASET (for SampleRNN)</h2>
+
+<p>We will be using the SampleRNN training as our project: specifically the <a href="https://github.com/deepsound-project/samplernn-pytorch" title="SampleRNN PyTorch">PyTorch</a> version.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd
+mkdir CODE
+cd CODE/
+git clone https://github.com/deepsound-project/samplernn-pytorch.git
+</code></pre></div></div>
+
+<p>Now we want to use their sample training data.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install youtube-dl
+sudo apt-get install ffmpeg
+cd samplernn-pytorch/datasets/
+./download-from-youtube.sh "https://www.youtube.com/watch?v=EhO_MrRfftU" 8 piano
+</code></pre></div></div>
+<p>There is a bug with youtube-dl which cause the DL-speed to cap at 50kbps and I am not too sure how to go around that. It will take some time in that case.</p>
+
+<h2 id="tmux-sessions">Tmux sessions</h2>
+
+<p>We will be using <code class="highlighter-rouge">tmux</code> to keep our processes running for training and monitoring. If you close your SSH connection, the training won’t be forced to quit.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install tmux
+tmux new -s train
+</code></pre></div></div>
+
+<p>Common commands:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>New session</td>
+      <td><code class="highlighter-rouge">tmux new -s &lt;name&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Detach session</td>
+      <td><code class="highlighter-rouge">[ctrl]+b d</code></td>
+    </tr>
+    <tr>
+      <td>Attach session</td>
+      <td><code class="highlighter-rouge">tmux a -t &lt;name&gt;</code></td>
+    </tr>
+    <tr>
+      <td>List sessions</td>
+      <td><code class="highlighter-rouge">tmux ls</code></td>
+    </tr>
+    <tr>
+      <td>Kill session</td>
+      <td><code class="highlighter-rouge">tmux kill-session -t &lt;name&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Kill all sessions</td>
+      <td><code class="highlighter-rouge">tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="comet-ml-optional">Comet ML (optional)</h2>
+
+<p>For monitoring our training online, we can use Comet ML. You can get a free public account at <a href="https://www.comet.ml" title="Comet ML">their website</a>. It will show you your API key in the example.</p>
+
+<p>Install dependencies:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source activate samplernn
+conda install pip
+pip install pyyaml
+pip install cython
+pip install comet_ml
+</code></pre></div></div>
+
+<p>Change key in train.py:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd CODE/samplernn-pytorch/
+nano python.py
+</code></pre></div></div>
+<p>Navigate to this bit:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'comet_key': None
+</code></pre></div></div>
+<p>Change it to your Comet Projects API key:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'comet_key': 'aaBbCCe1efFgghHiiJjkK2llM'
+</code></pre></div></div>
+<p>Click <code class="highlighter-rouge">[ctrl]+O</code> to save with the same name, then <code class="highlighter-rouge">[ctrl]+X</code> to exit.</p>
+
+<h2 id="training">Training</h2>
+
+<p>To start training, we now just activate our environment and start to run the code.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source activate samplernn
+cd CODE/samplernn-pytorch/
+python train.py --exp TEST --frame_sizes 16 4 --n_rnn 2 --dataset piano
+</code></pre></div></div>
+
+<h3 id="happy-training">Happy training!</h3>
+
+<p>With these settings, every 1350 iterations (60-100 minutes) an epoch will end and a 5 second sequence will be generated in <code class="highlighter-rouge">results/exp:TEST-frame_sizes:16,4-n_rnn:2-dataset:piano/samples</code>.</p>
+
+<p>To send these to your own local computer, use the following commands:</p>
+
+<p><code class="highlighter-rouge">rsync -chavzP --stats -e 'ssh -i ~/.ssh/my-ssh-key' &lt;username&gt;@&lt;remote_ip&gt;:/home/&lt;name&gt;/CODE/samplernn-pytorch/results/exp:TEST-frame_sizes:16,4-n_rnn:2-dataset:piano/samples '&lt;local folder&gt;'</code></p>
+
+<h3 id="questions">Questions</h3>
+
+<p>If you have any questions, even if you think they might be obvious to some, just ask them under this page or contact me privately!</p>
+
+
+          </div>
+          <div class="article-share">
+            
+            
+            <a href="https://twitter.com/home?status=Setting+up+a+VM+for+Machine+Learning%20-%20/posts/setting-up-vm-for-machine-learning%20by%20@bartvdbraak" title="Share on Twitter" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M492 109.5c-17.4 7.7-36 12.9-55.6 15.3 20-12 35.4-31 42.6-53.6 -18.7 11.1-39.4 19.2-61.5 23.5C399.8 75.8 374.6 64 346.8 64c-53.5 0-96.8 43.4-96.8 96.9 0 7.6 0.8 15 2.5 22.1 -80.5-4-151.9-42.6-199.6-101.3 -8.3 14.3-13.1 31-13.1 48.7 0 33.6 17.2 63.3 43.2 80.7C67 210.7 52 206.3 39 199c0 0.4 0 0.8 0 1.2 0 47 33.4 86.1 77.7 95 -8.1 2.2-16.7 3.4-25.5 3.4 -6.2 0-12.3-0.6-18.2-1.8 12.3 38.5 48.1 66.5 90.5 67.3 -33.1 26-74.9 41.5-120.3 41.5 -7.8 0-15.5-0.5-23.1-1.4C62.8 432 113.7 448 168.3 448 346.6 448 444 300.3 444 172.2c0-4.2-0.1-8.4-0.3-12.5C462.6 146 479 129 492 109.5z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=/posts/setting-up-vm-for-machine-learning" title="Share on Facebook" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M288 192v-38.1c0-17.2 3.8-25.9 30.5-25.9H352V64h-55.9c-68.5 0-91.1 31.4-91.1 85.3V192h-45v64h45v192h83V256h56.4l7.6-64H288z"/></svg>
+            </a>
+            <a href="https://plus.google.com/share?url=/posts/setting-up-vm-for-machine-learning" title="Share on Google+" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 128 128"><path d="M40.7 55.9v16.1c0 0 15.6 0 22 0C59.2 82.5 53.8 88.2 40.7 88.2c-13.3 0-23.7-10.8-23.7-24.2s10.4-24.2 23.7-24.2c7.1 0 11.6 2.5 15.8 5.9 3.3-3.3 3.1-3.8 11.6-11.9 -7.2-6.6-16.8-10.6-27.4-10.6C18.2 23.3 0 41.5 0 64c0 22.5 18.2 40.7 40.7 40.7 33.6 0 41.8-29.3 39-48.8H40.7zM113.9 56.7V42.6h-10.1v14.1H89.4v10.1h14.5v14.5h10.1V66.8H128V56.7H113.9z"/></svg>
+            </a>
+          </div>
+
+          
+            <div id="disqus_thread" class="article-comments"></div>
+            <script src="https://bartvdbraak.disqus.com/embed.js" async defer></script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+          
+        </article>
+        <footer class="footer scrollappear">
+  <p>
+    Owner: <a href="/about" title="About me">Bart van der Braak</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+
+<script src="/assets/vendor-0fb4b91f7ad6c193a69224eba7a01b691a2d7528ee672607575ccc0df3aea545.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+</body>
+</html>
